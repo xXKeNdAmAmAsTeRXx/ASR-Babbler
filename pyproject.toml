@@ -1,0 +1,18 @@
+[project]
+name = "asr-bubbler"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "jiwer>=4.0.0",
+    "librosa>=0.11.0",
+    "matplotlib>=3.10.9",
+    "nemo-toolkit[asr]>=2.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.2.0",
+    "jupyter>=1.1.1",
+]
