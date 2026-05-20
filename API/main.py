@@ -6,9 +6,13 @@ import uuid
 
 app = FastAPI()
 
+# TODO: Create class for storing audio along with metrics and transcription
+
 # in-memory store: id -> audio data
 audio_store = {}
 
+
+#TODO: Post Transcription Along with audio or in different endpoint (?)
 
 @app.post("/upload")
 async def upload_audio(file: UploadFile = File(...)):
@@ -25,6 +29,8 @@ async def upload_audio(file: UploadFile = File(...)):
 
 
 # TODO: Create Core functions and use them in API endpoints
+# TODO: Design API endpoint and Return types
+
 @app.get("/transcription/{audio_id}")
 def get_transcription(audio_id: str):
     #TODO: get audio transcription
