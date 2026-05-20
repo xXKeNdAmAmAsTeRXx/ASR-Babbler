@@ -2,51 +2,59 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 import librosa
 import io
+import uuid
 
-app = FastAPI(
-    title="Audio Sample Rate API",
-    description="Upload an audio file and get its sample rate.",
-    version="1.0.0",
-)
+app = FastAPI()
 
-
-
-# TODO: Create Endpoint for Posing Audio and Getting Scores (score function needed) - How to transfer CER visualisation ?
+# in-memory store: id -> audio data
+audio_store = {}
 
 
-@app.post("/sample-rate")
-async def get_sample_rate(file: UploadFile = File(...)):
-    """
-    This is mock endpoint to test files transfer via API
-
-    Upload an audio file and receive its sample rate in Hz.
-
-    Supported formats: WAV, FLAC, OGG, MP3, and other formats
-    supported by librosa.
-    """
+@app.post("/upload")
+async def upload_audio(file: UploadFile = File(...)):
     contents = await file.read()
-
     try:
-        y, sample_rate = librosa.load(io.BytesIO(contents), sr=None, mono=False)
-        channels = 1 if y.ndim == 1 else y.shape[0]
-        frames = y.shape[-1]
-        duration_seconds = librosa.get_duration(y=y, sr=sample_rate)
+        y, sr = librosa.load(io.BytesIO(contents), sr=None, mono=False)
     except Exception as e:
-        raise HTTPException(
-            status_code=422,
-            detail=f"Could not read audio file: {str(e)}. "
-                   "Make sure the file is a valid audio format (WAV, FLAC, OGG, MP3, etc.).",
-        )
+        raise HTTPException(status_code=422, detail=str(e))
 
-    return JSONResponse(content={
-        "filename": file.filename,
-        "sample_rate_hz": sample_rate,
-        "channels": channels,
-        "duration_seconds": round(duration_seconds, 3),
-        "total_frames": frames,
-    })
+    audio_id = str(uuid.uuid4())
+    audio_store[audio_id] = {"y": y, "sr": sr, "filename": file.filename}
+
+    return {"audio_id": audio_id}
 
 
-@app.get("/health")
-def health():
-    return {"status": "ok"}
+# TODO: Create Core functions and use them in API endpoints
+@app.get("/transcription/{audio_id}")
+def get_transcription(audio_id: str):
+    #TODO: get audio transcription
+    pass
+
+@app.get("/reports/{audio_id}")
+def get_report(audio_id: str):
+    #TODO: get full audio report (diction scores)
+    pass
+
+@app.post("/cer/{audio_id}")
+def get_cert(audio_id: str):
+    #TODO: get CER vizualizations
+    pass
+
+@app.get("/sample-rate/{audio_id}")
+def get_sample_rate(audio_id: str):
+    audio = _get_or_404(audio_id)
+    return {"sample_rate_hz": audio["sr"]}
+
+
+
+@app.get("/duration/{audio_id}")
+def get_duration(audio_id: str):
+    audio = _get_or_404(audio_id)
+    duration = librosa.get_duration(y=audio["y"], sr=audio["sr"])
+    return {"duration_seconds": round(duration, 3)}
+
+
+def _get_or_404(audio_id: str):
+    if audio_id not in audio_store:
+        raise HTTPException(status_code=404, detail="Audio ID not found")
+    return audio_store[audio_id]
