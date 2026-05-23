@@ -19,6 +19,7 @@ def report(ref, hyp, audio: np.ndarray, sr: int) -> tuple[
     S = np.abs(librosa.stft(audio, n_fft=1024, hop_length=256))
 
 
+    # Bajon insisted we need it for future development
     report = {
         'transcription': hyp.text,
         'reference': ref,
