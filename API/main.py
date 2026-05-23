@@ -96,14 +96,17 @@ async def upload_audio(file: UploadFile = File(...), exercise_id: int = Form(...
 # Get Endpoints
 @app.get("/score/{audio_id}")
 def get_score(audio_id: str) -> Score:
+    """Get report with all scores"""
     return score_store[audio_id]
 
 @app.get("/score/cer_vis/{audio_id}")
 def get_cer_vis(audio_id: str) -> str:
+    """Get html with CER vizualization"""
     return cer_visualisation_store[audio_id]
 
 @app.get("/transcription/{audio_id}")
 def get_transcription(audio_id: str) -> Transcription:
+    """Get Transcription and Reference text"""
     return transcriptions[audio_id]
 
 
