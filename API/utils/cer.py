@@ -48,7 +48,7 @@ def highlight_cer(reference: str, hypothesis: str) -> None:
     <div style="font-family:monospace;font-size:14px;line-height:2">
         <div style="margin-bottom:8px">
             <span style="font-size:12px;color:#888">CER: </span>
-            <strong>{(1-cer_score)*100:.1f}</strong>
+            <strong>{(cer_score)*100:.1f}</strong>
         </div>
         <div style="margin-bottom:12px">
             <span style="font-size:11px;color:#888;display:block;margin-bottom:2px">referencja</span>
@@ -59,6 +59,6 @@ def highlight_cer(reference: str, hypothesis: str) -> None:
             {' '.join(hyp_html)}
         </div>
     </div>
-    """
+    """.replace('\n', '')
 
     return html
