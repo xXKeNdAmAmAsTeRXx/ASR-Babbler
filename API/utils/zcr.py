@@ -2,17 +2,17 @@ import numpy as np
 import librosa
 
 
-def rms_metrics(audio: np.ndarray, hop_length: int = 256) -> dict:
+def zcr_metrics(audio: np.ndarray, hop_length: int = 256, silence_threshold: float = 0.02) -> dict:
     rms = librosa.feature.rms(y=audio, hop_length=hop_length)[0]
+    zcr = librosa.feature.zero_crossing_rate(audio, hop_length=hop_length)[0]
 
-    mean_rms = float(np.mean(rms))
-    std_rms = float(np.std(rms))
+    speech_frames = rms > silence_threshold
+    mean_zcr = float(np.mean(zcr[speech_frames])) if np.any(speech_frames) else 0.0
 
-    # normalize: stability score is better when std is lower
-    rms_stability = float(1.0 - np.clip(std_rms / 0.1, 0, 1))
+    # normalize: higher ZCR in speech shows better articulation
+    zcr_score = float(np.clip((mean_zcr - 0.03) / 0.12, 0, 1))
 
     return {
-        'rms_mean': mean_rms,
-        'rms_std': std_rms,
-        'rms_stability': rms_stability,
+        'zcr_mean': mean_zcr,
+        'zcr_score': zcr_score,
     }
