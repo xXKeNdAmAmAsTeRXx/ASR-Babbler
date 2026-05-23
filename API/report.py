@@ -39,6 +39,6 @@ def report(ref, hyp, audio: np.ndarray, sr: int) -> tuple[
         'rms_stability': report['rms_stability'],
         'zcr_score': report['zcr_score'],
         'spectral_centroid_score': report['spectral_centroid_score'],
-        'speaking_rate_wpm': report['wpm'],
-        'speaking_rate_score': report['rate_score']
+        'speaking_rate_wpm': report['speaking_rate_wpm'],
+        'speaking_rate_score': report['speaking_rate_score']
     }, report['vis_cer']

@@ -9,9 +9,11 @@ import librosa
 import io
 import uuid
 
-from API.models import DictionExercise, Audio, Score
-from utils.load_asr_model import load_asr_model
-from report import report as make_report
+from nemo.collections.asr.parts.mixins import transcription
+
+from API.models import DictionExercise, Audio, Score, Transcription
+from API.utils.load_asr_model import load_asr_model
+from API.report import report as make_report
 app = FastAPI()
 
 # ASR model
@@ -28,6 +30,7 @@ Trudnosc = Literal["łatwa", "średnia", "trudna", "bardzo trudna"]
 audio_store = {}
 score_store = {}
 cer_visualisation_store = {}
+transcriptions = {}
 
 # Helper for getting text
 def load_exercises() -> list[DictionExercise]:
@@ -82,12 +85,27 @@ async def upload_audio(file: UploadFile = File(...), exercise_id: int = Form(...
     score_store[audio_id] = score
     cer_visualisation_store[audio_id] = cer_vis
 
+    #Transcription
+    transcriptions[audio_id] = Transcription(reference=exercise.tekst, transcription=hyp.text)
+
     return {"audio_id": audio_id}
 
 
 
 
-# TODO: Design API endpoint and Return types
+# Get Endpoints
+@app.get("/score/{audio_id}")
+def get_score(audio_id: str) -> Score:
+    return score_store[audio_id]
+
+@app.get("/score/cer_vis/{audio_id}")
+def get_cer_vis(audio_id: str) -> str:
+    return cer_visualisation_store[audio_id]
+
+@app.get("/transcription/{audio_id}")
+def get_transcription(audio_id: str) -> Transcription:
+    return transcriptions[audio_id]
+
 
 @app.get('/health')
 def health():

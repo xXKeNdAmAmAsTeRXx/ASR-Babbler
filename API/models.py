@@ -32,3 +32,7 @@ class Score(BaseModel):
     spectral_centroid_score: float
     speaking_rate_wpm: float
     speaking_rate_score: float
+
+class Transcription(BaseModel):
+    reference: str
+    transcription: str
