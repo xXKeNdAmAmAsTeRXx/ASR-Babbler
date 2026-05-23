@@ -17,11 +17,11 @@ path = os.path.join('API',"cwiczenia_dykcja.json" )
 DATA_PATH = Path(path)
 Trudnosc = Literal["łatwa", "średnia", "trudna", "bardzo trudna"]
 
-# in-memory store: id -> audio data
+# in-memory store:
+#   id -> audio data
+#   id -> Score data
 audio_store = {}
 
-
-# Getting Text
 
 # Helper for getting text
 def load_exercises() -> list[DictionExercise]:
