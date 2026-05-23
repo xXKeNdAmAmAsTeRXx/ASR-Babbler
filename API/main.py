@@ -9,8 +9,13 @@ import librosa
 import io
 import uuid
 
-from API.models import DictionExercise, Audio
+from API.models import DictionExercise, Audio, Score
+from utils.load_asr_model import load_asr_model
+from report import report as make_report
 app = FastAPI()
+
+# ASR model
+asr_model = load_asr_model()
 
 # Text variables
 path = os.path.join('API',"cwiczenia_dykcja.json" )
@@ -21,7 +26,8 @@ Trudnosc = Literal["łatwa", "średnia", "trudna", "bardzo trudna"]
 #   id -> audio data
 #   id -> Score data
 audio_store = {}
-
+score_store = {}
+cer_visualisation_store = {}
 
 # Helper for getting text
 def load_exercises() -> list[DictionExercise]:
@@ -62,11 +68,19 @@ async def upload_audio(file: UploadFile = File(...), exercise_id: int = Form(...
         raise HTTPException(status_code=422, detail=str(e))
 
 
+    # Storing Audio
     exercises = load_exercises()
     exercise = exercises[exercise_id]
 
     audio_id = str(uuid.uuid4())
     audio_store[audio_id] = Audio(id=audio_id, y=y, sample_rate=int(sr), reference=exercise.tekst)
+
+    #Storing Scores
+    hyp = asr_model.transcribe([y], return_hypotheses=True)[0][0]
+    report, cer_vis = make_report(ref=exercise.tekst, hyp=hyp, audio=y, sr=int(sr))
+    score = Score(id=audio_id, **report)
+    score_store[audio_id] = score
+    cer_visualisation_store[audio_id] = cer_vis
 
     return {"audio_id": audio_id}
 

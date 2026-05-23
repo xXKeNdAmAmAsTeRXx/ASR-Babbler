@@ -22,3 +22,13 @@ class Audio:
     y: np.ndarray
     sample_rate: int
     reference:str
+
+class Score(BaseModel):
+    id:str
+    confidence: float
+    cer_score: float
+    rms_stability: float
+    zcr_score: float
+    spectral_centroid_score: float
+    speaking_rate_wpm: float
+    speaking_rate_score: float
