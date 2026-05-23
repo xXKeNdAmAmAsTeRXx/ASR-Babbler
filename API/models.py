@@ -36,3 +36,12 @@ class Score(BaseModel):
 class Transcription(BaseModel):
     reference: str
     transcription: str
+
+
+class AudioResponse(BaseModel):
+    """JSON-serializable audio for GET /audio/{audio_id}."""
+
+    id: str
+    y: list[float] | list[list[float]]
+    sample_rate: int
+    reference: str

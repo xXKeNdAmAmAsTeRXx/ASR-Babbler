@@ -11,7 +11,7 @@ import uuid
 
 from nemo.collections.asr.parts.mixins import transcription
 
-from API.models import DictionExercise, Audio, Score, Transcription
+from API.models import DictionExercise, Audio, AudioResponse, Score, Transcription
 from API.utils.load_asr_model import load_asr_model
 from API.report import report as make_report
 app = FastAPI()
@@ -94,21 +94,42 @@ async def upload_audio(file: UploadFile = File(...), exercise_id: int = Form(...
 
 
 # Get Endpoints
-@app.get("/score/{audio_id}")
-def get_score(audio_id: str) -> Score:
-    """Get report with all scores"""
-    return score_store[audio_id]
-
 @app.get("/score/cer_vis/{audio_id}")
 def get_cer_vis(audio_id: str) -> str:
     """Get html with CER vizualization"""
+    if audio_id not in cer_visualisation_store:
+        raise HTTPException(status_code=404, detail=f"Nie znaleziono nagrania '{audio_id}'.")
     return cer_visualisation_store[audio_id]
+
+
+@app.get("/score/{audio_id}")
+def get_score(audio_id: str) -> Score:
+    """Get report with all scores"""
+    if audio_id not in score_store:
+        raise HTTPException(status_code=404, detail=f"Nie znaleziono nagrania '{audio_id}'.")
+    return score_store[audio_id]
+
 
 @app.get("/transcription/{audio_id}")
 def get_transcription(audio_id: str) -> Transcription:
     """Get Transcription and Reference text"""
+    if audio_id not in transcriptions:
+        raise HTTPException(status_code=404, detail=f"Nie znaleziono nagrania '{audio_id}'.")
     return transcriptions[audio_id]
 
+
+@app.get("/audio/{audio_id}", response_model=AudioResponse)
+def get_audio(audio_id: str) -> AudioResponse:
+    """Get Audio data"""
+    if audio_id not in audio_store:
+        raise HTTPException(status_code=404, detail=f"Nie znaleziono nagrania '{audio_id}'.")
+    audio = audio_store[audio_id]
+    return AudioResponse(
+        id=audio.id,
+        y=audio.y.tolist(),
+        sample_rate=audio.sample_rate,
+        reference=audio.reference,
+    )
 
 @app.get('/health')
 def health():

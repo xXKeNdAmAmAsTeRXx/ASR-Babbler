@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASR Bubbler — Dykcja</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <h1>ASR Bubbler</h1>
+      <p class="tagline">
+        Ćwicz wymowę, nagraj wypowiedź i zobacz wyniki transkrypcji.
+      </p>
+    </header>
+
+    <main>
+      <section class="panel" id="setup-panel">
+        <h2>Nowe ćwiczenie</h2>
+        <div class="controls">
+          <label class="select-label" for="difficulty">
+            Trudność
+            <select id="difficulty" aria-label="Poziom trudności">
+              <option value="">Dowolna</option>
+              <option value="łatwa">Łatwa</option>
+              <option value="średnia">Średnia</option>
+              <option value="trudna">Trudna</option>
+              <option value="bardzo trudna">Bardzo trudna</option>
+            </select>
+          </label>
+          <button type="button" class="btn-ghost" id="btn-new-exercise">
+            Losuj tekst
+          </button>
+        </div>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="panel hidden" id="exercise-panel">
+        <h2>Do przeczytania</h2>
+        <p id="exercise-name" class="exercise-text" style="font-size: 1rem; margin-bottom: 0.5rem"></p>
+        <div class="exercise-meta" id="exercise-meta"></div>
+        <p class="exercise-text" id="exercise-text"></p>
+        <p class="exercise-hint" id="exercise-hint"></p>
+      </section>
+
+      <section class="panel hidden" id="record-panel">
+        <h2>Nagrywanie</h2>
+        <div class="record-zone">
+          <div>
+            <span class="record-indicator" id="record-indicator" aria-hidden="true"></span>
+            <span id="record-label">Gotowy do nagrania</span>
+          </div>
+          <p class="record-timer" id="record-timer" aria-live="off">0:00</p>
+          <div class="controls" style="justify-content: center">
+            <button type="button" class="btn-primary" id="btn-record">
+              Nagraj
+            </button>
+            <button type="button" class="btn-danger" id="btn-stop">
+              Zatrzymaj
+            </button>
+            <button type="button" class="btn-ghost" id="btn-submit">
+              Wyślij i oceń
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel hidden" id="results-panel">
+        <h2>Wyniki</h2>
+
+        <div class="playback-block">
+          <h3>Twoje nagranie</h3>
+          <audio id="playback-audio" class="audio-player" controls preload="metadata">
+            Twoja przeglądarka nie obsługuje odtwarzania audio.
+          </audio>
+          <p class="playback-meta hidden" id="playback-meta"></p>
+        </div>
+
+        <div class="scores-grid" id="scores-grid"></div>
+
+        <div style="margin-top: 1.5rem">
+          <div class="transcription-block">
+            <h3>Referencja</h3>
+            <p id="transcription-ref"></p>
+          </div>
+          <div class="transcription-block">
+            <h3>Transkrypcja ASR</h3>
+            <p id="transcription-hyp"></p>
+          </div>
+        </div>
+
+        <h2 style="margin-top: 1.5rem">Wizualizacja CER</h2>
+        <div class="cer-viz" id="cer-viz"></div>
+
+        <div class="controls" style="margin-top: 1.25rem">
+          <button type="button" class="btn-ghost" id="btn-reload-results">
+            Odśwież wyniki
+          </button>
+          <button type="button" class="btn-ghost" id="btn-clear-session">
+            Wyczyść sesję
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Prosty frontend dla API ASR Bubbler · audio_id w sessionStorage i ciasteczku</p>
+    </footer>
+
+    <div class="loading-overlay" id="loading" aria-busy="true" aria-hidden="true">
+      <div class="spinner" aria-hidden="true"></div>
+      <p id="loading-message">Przetwarzanie…</p>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
