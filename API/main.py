@@ -39,7 +39,7 @@ def get_random_exercise(
             description="Filtruj po poziomie trudności: łatwa | średnia | trudna | bardzo trudna",
         )
 ):
-    """Zwraca losowe ćwiczenie dykcji. Opcjonalnie filtruje po trudności."""
+    """Return random exercise with option to choose difficulty"""
     exercises = load_exercises()
 
     if trudnosc is not None:
@@ -52,10 +52,9 @@ def get_random_exercise(
 
     return random.choice(exercises)
 
-#TODO: Post Transcription Along with audio or in different endpoint (?)
-
 @app.post("/upload")
 async def upload_audio(file: UploadFile = File(...), exercise_id: int = Form(...)):
+    """Upload audio file along with exercise id, adds audio along with reference transcription to audio_store"""
     contents = await file.read()
     try:
         y, sr = librosa.load(io.BytesIO(contents), sr=None, mono=False)
