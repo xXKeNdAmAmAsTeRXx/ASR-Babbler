@@ -64,3 +64,8 @@ def _get_or_404(audio_id: str):
     if audio_id not in audio_store:
         raise HTTPException(status_code=404, detail="Audio ID not found")
     return audio_store[audio_id]
+
+
+@app.get('/health')
+def health():
+    return {"status": "ok"}
