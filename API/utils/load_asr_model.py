@@ -1,3 +1,7 @@
+from omegaconf import OmegaConf, DictConfig
+import nemo.collections.asr as nemo_asr
+import torch
+
 def load_asr_model():
     asr_model = nemo_asr.models.EncDecHybridRNNTCTCBPEModel.from_pretrained(
         model_name="nvidia/stt_pl_fastconformer_hybrid_large_pc"
