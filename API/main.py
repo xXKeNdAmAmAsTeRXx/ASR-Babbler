@@ -131,6 +131,11 @@ def get_audio(audio_id: str) -> AudioResponse:
         reference=audio.reference,
     )
 
+@app.get("/scores/history")
+def get_scores_history() -> list[Score]:
+    """Get list of all scores"""
+    return list(score_store.values())
+
 @app.get('/health')
 def health():
     return {"status": "ok"}

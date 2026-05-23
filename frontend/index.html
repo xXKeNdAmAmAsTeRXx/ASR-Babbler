@@ -35,6 +35,34 @@
         <p class="status" id="status" role="status" aria-live="polite"></p>
       </section>
 
+      <section class="panel" id="history-panel">
+        <div class="panel-header-row">
+          <h2>Historia prób</h2>
+          <button type="button" class="btn-ghost btn-sm" id="btn-refresh-history">
+            Odśwież
+          </button>
+        </div>
+        <p class="history-hint">
+          Wyniki z bieżącej sesji API. Kliknij wiersz, aby zobaczyć szczegóły nagrania.
+        </p>
+        <div class="history-table-wrap">
+          <table class="history-table" id="history-table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Dokładność</th>
+                <th scope="col">CER</th>
+                <th scope="col">Pewność</th>
+                <th scope="col">Tempo</th>
+                <th scope="col">Ocena tempa</th>
+              </tr>
+            </thead>
+            <tbody id="history-tbody"></tbody>
+          </table>
+          <p class="history-empty hidden" id="history-empty">Brak wcześniejszych prób.</p>
+        </div>
+      </section>
+
       <section class="panel hidden" id="exercise-panel">
         <h2>Do przeczytania</h2>
         <p id="exercise-name" class="exercise-text" style="font-size: 1rem; margin-bottom: 0.5rem"></p>

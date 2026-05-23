@@ -85,6 +85,14 @@ export async function getAudio(audioId) {
   return res.json();
 }
 
+/**
+ * GET /scores/history — Get list of all scores (previous attempts).
+ */
+export async function getScoresHistory() {
+  const res = await request("/scores/history");
+  return res.json();
+}
+
 /** GET /health */
 export async function healthCheck() {
   const res = await request("/health");

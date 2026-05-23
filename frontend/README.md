@@ -7,7 +7,8 @@ Vanilla HTML/CSS/JS UI styled similarly to [Human Benchmark](https://humanbenchm
 1. **Losuj tekst** — `GET /exercise/random` (optional `trudnosc` filter)
 2. **Nagraj** — browser microphone (`MediaRecorder`, WebM)
 3. **Wyślij i oceń** — converts to **mono WAV at 16 kHz** in the browser (same as notebook; librosa does not read WebM), then `POST /upload` with `exercise_id` (list index: `exercise.id - 1`)
-4. **Wyniki** — `GET /score/{audio_id}`, `GET /transcription/{audio_id}`, `GET /score/cer_vis/{audio_id}`, `GET /audio/{audio_id}` (odtwarzanie nagrania w przeglądarce)
+4. **Wyniki** — `GET /score/{audio_id}`, `GET /transcription/{audio_id}`, `GET /score/cer_vis/{audio_id}`, `GET /audio/{audio_id}` (odtwarzanie nagrania w przeglądarze)
+5. **Historia** — panel „Historia prób” z `GET /scores/history` (klik wiersza ładuje dany attempt)
 
 `audio_id` is stored in **sessionStorage** and a **cookie** (`asr_bubbler_audio_id`, 7 days) so scores and CER HTML can be reloaded after refresh.
 
@@ -27,7 +28,7 @@ uv run python frontend/serve.py
 
 Open **http://127.0.0.1:8080**
 
-The dev proxy forwards `/exercise/*`, `/upload`, `/score/*`, `/transcription/*`, `/audio/*`, and `/health` to the API on port 8000.
+The dev proxy forwards `/exercise/*`, `/upload`, `/score/*`, `/scores/*`, `/transcription/*`, `/audio/*`, and `/health` to the API on port 8000.
 
 ## Alternative: direct API URL
 

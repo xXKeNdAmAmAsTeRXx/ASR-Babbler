@@ -25,6 +25,7 @@ PROXY_PREFIXES = (
     "/exercise/",
     "/upload",
     "/score/",
+    "/scores/",
     "/transcription/",
     "/audio/",
     "/health",

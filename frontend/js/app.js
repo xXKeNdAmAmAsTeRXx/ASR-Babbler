@@ -5,6 +5,7 @@ import {
   getCerVisualization,
   getTranscription,
   getAudio,
+  getScoresHistory,
   healthCheck,
 } from "./api.js";
 import { AudioRecorder } from "./recorder.js";
@@ -38,9 +39,15 @@ const els = {
   playbackMeta: $("#playback-meta"),
   btnReloadResults: $("#btn-reload-results"),
   btnClearSession: $("#btn-clear-session"),
+  historyTbody: $("#history-tbody"),
+  historyEmpty: $("#history-empty"),
+  historyTable: $("#history-table"),
+  btnRefreshHistory: $("#btn-refresh-history"),
   loading: $("#loading"),
   loadingMessage: $("#loading-message"),
 };
+
+let scoresHistory = [];
 
 let currentExercise = null;
 let recordedBlob = null;
@@ -198,6 +205,59 @@ async function onSubmit() {
   }
 }
 
+function renderScoresHistory(history, selectedId = null) {
+  scoresHistory = history;
+  const items = [...history].reverse();
+
+  if (items.length === 0) {
+    els.historyTbody.innerHTML = "";
+    els.historyTable.classList.add("hidden");
+    els.historyEmpty.classList.remove("hidden");
+    return;
+  }
+
+  els.historyTable.classList.remove("hidden");
+  els.historyEmpty.classList.add("hidden");
+
+  els.historyTbody.innerHTML = items
+    .map((score, index) => {
+      const attemptNum = items.length - index;
+      const accuracy = 1 - Number(score.cer_score);
+      const isSelected = selectedId && score.id === selectedId;
+      return `
+    <tr class="history-row${isSelected ? " is-selected" : ""}" data-audio-id="${escapeHtml(score.id)}" tabindex="0" role="button" title="${escapeHtml(score.id)}">
+      <td class="history-num">${attemptNum}</td>
+      <td>${escapeHtml(formatPercent(accuracy))}</td>
+      <td>${escapeHtml(formatPercent(score.cer_score))}</td>
+      <td>${escapeHtml(formatPercent(score.confidence))}</td>
+      <td>${escapeHtml(formatNumber(score.speaking_rate_wpm, 0))} <span class="history-unit">sł/min</span></td>
+      <td>${escapeHtml(formatPercent(score.speaking_rate_score))}</td>
+    </tr>`;
+    })
+    .join("");
+}
+
+async function loadScoresHistory(selectedId = null) {
+  try {
+    const history = await getScoresHistory();
+    renderScoresHistory(history, selectedId ?? getAudioId());
+  } catch (err) {
+    els.historyTbody.innerHTML = "";
+    els.historyTable.classList.add("hidden");
+    els.historyEmpty.textContent =
+      err.message || "Nie udało się załadować historii.";
+    els.historyEmpty.classList.remove("hidden");
+  }
+}
+
+async function selectHistoryAttempt(audioId) {
+  if (!audioId) return;
+  saveAudioId(audioId);
+  renderScoresHistory(scoresHistory, audioId);
+  await loadResults(audioId);
+  els.resultsPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 function renderScores(score) {
   const accuracy = 1 - Number(score.cer_score);
   const cards = [
@@ -284,6 +344,7 @@ async function loadResults(audioId) {
     }
 
     els.resultsPanel.classList.remove("hidden");
+    await loadScoresHistory(audioId);
     setStatus("Wyniki załadowane.", "success");
   } catch (err) {
     setStatus(
@@ -304,6 +365,24 @@ async function tryRestoreResults() {
 }
 
 function bindEvents() {
+  els.btnRefreshHistory.addEventListener("click", () =>
+    loadScoresHistory(getAudioId())
+  );
+
+  els.historyTbody.addEventListener("click", (e) => {
+    const row = e.target.closest(".history-row");
+    if (row?.dataset.audioId) selectHistoryAttempt(row.dataset.audioId);
+  });
+
+  els.historyTbody.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const row = e.target.closest(".history-row");
+    if (row?.dataset.audioId) {
+      e.preventDefault();
+      selectHistoryAttempt(row.dataset.audioId);
+    }
+  });
+
   els.btnNewExercise.addEventListener("click", loadRandomExercise);
   els.btnRecord.addEventListener("click", onRecordStart);
   els.btnStop.addEventListener("click", onRecordStop);
@@ -339,6 +418,7 @@ async function init() {
     return;
   }
 
+  await loadScoresHistory();
   await loadRandomExercise();
   await tryRestoreResults();
 }
