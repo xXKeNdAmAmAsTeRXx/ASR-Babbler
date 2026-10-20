@@ -1,0 +1,94 @@
+{
+  "cwiczenia_dykcja": [
+    {
+      "id": 1,
+      "nazwa": "Klasyczna łamańca językowa",
+      "typ": "łamańce językowe",
+      "trudnosc": "średnia",
+      "fokus": ["sz/cz/ż/rz", "szybkość artykulacji"],
+      "tekst": "Chrząszcz brzmi w trzcinie w Szczebrzeszynie, w Szczebrzeszynie chrząszcz brzmi w trzcinie.",
+      "wskazowka": "Zacznij bardzo wolno, wymawiaj każdą głoskę oddzielnie, stopniowo zwiększaj tempo."
+    },
+    {
+      "id": 2,
+      "nazwa": "Ćwiczenie na głoskę R",
+      "typ": "powtarzanki",
+      "trudnosc": "łatwa",
+      "fokus": ["głoska r", "płynność"],
+      "tekst": "Król Karol kupił królowej Karolinie korale koloru koralowego.",
+      "wskazowka": "Zwróć uwagę na wyraźne wibrowanie języka przy każdym 'r'. Nie zastępuj 'r' głoską 'l'."
+    },
+    {
+      "id": 3,
+      "nazwa": "Samogłoski polskie",
+      "typ": "ćwiczenie artykulacyjne",
+      "trudnosc": "łatwa",
+      "fokus": ["samogłoski nosowe", "ą/ę"],
+      "tekst": "Wąż wąchał wędzoną wątróbkę węgorza wędrując wąwozem.",
+      "wskazowka": "Mocno zaznaczaj nosowość głosek 'ą' i 'ę', czuj rezonans w jamie nosowej."
+    },
+    {
+      "id": 4,
+      "nazwa": "Spółgłoski zwarto-szczelinowe",
+      "typ": "łamańce językowe",
+      "trudnosc": "trudna",
+      "fokus": ["cz/dż/sz/ż", "precyzja artykulacji"],
+      "tekst": "Czy tata czyta cytaty? Cytaty czyta tata. Tata czyta cytaty czy nie czyta cytatów?",
+      "wskazowka": "Wyraźnie odróżniaj 'c' od 'cz' i 't' od 'dż'. Nie śpiesz się."
+    },
+    {
+      "id": 5,
+      "nazwa": "Ćwiczenie na głoski syczące",
+      "typ": "powtarzanki",
+      "trudnosc": "średnia",
+      "fokus": ["s/z/si/zi", "miękkość głosek"],
+      "tekst": "Siwy koziołek skacze po skałach, skała po skale sypie się w dół.",
+      "wskazowka": "Słuchaj różnicy między twardym 's' a miękkim 'si'. Język powinien być szeroki przy 's'."
+    },
+    {
+      "id": 6,
+      "nazwa": "Długie zdanie wielokrotnie złożone",
+      "typ": "ćwiczenie oddechowe",
+      "trudnosc": "trudna",
+      "fokus": ["oddech", "fraza", "płynność"],
+      "tekst": "Mama Marka mówiła, że Marek mógłby mówić mniej, ale Marek mówił, że mama mówi za mało i milczał.",
+      "wskazowka": "Całe zdanie na jednym wydechu. Ćwicz pojemność płuc i kontrolę wydechu."
+    },
+    {
+      "id": 7,
+      "nazwa": "Głoski wargowe",
+      "typ": "ćwiczenie artykulacyjne",
+      "trudnosc": "łatwa",
+      "fokus": ["p/b/m/w", "wargi"],
+      "tekst": "Babcia Basia bała się bąków, bo bąki brzęczą bardzo blisko brwi.",
+      "wskazowka": "Mocno angażuj wargi przy każdym 'b', 'p' i 'm'. Obserwuj się w lustrze."
+    },
+    {
+      "id": 8,
+      "nazwa": "Głoski tylnojęzykowe",
+      "typ": "powtarzanki",
+      "trudnosc": "średnia",
+      "fokus": ["k/g/h", "tył języka"],
+      "tekst": "Grzegorz Grzegorzewski grał w gry gdy grzmoty grały głośno w górach.",
+      "wskazowka": "Każda głoska 'g', 'k' i 'gr' wymaga cofnięcia języka do tylnej części podniebienia."
+    },
+    {
+      "id": 9,
+      "nazwa": "Modulacja i intonacja",
+      "typ": "ćwiczenie prozodyczne",
+      "trudnosc": "średnia",
+      "fokus": ["intonacja", "akcent zdaniowy", "modulacja głosu"],
+      "tekst": "Pada deszcz. Pada deszcz? Pada deszcz! Pada — deszcz. PADA deszcz. Pada DESZCZ.",
+      "wskazowka": "To samo zdanie wypowiedz sześć razy z innym akcentem i intonacją zgodnie z interpunkcją."
+    },
+    {
+      "id": 10,
+      "nazwa": "Pełna trudność — wszystkie głoski",
+      "typ": "łamańce językowe",
+      "trudnosc": "bardzo trudna",
+      "fokus": ["wszystkie grupy spółgłoskowe", "szybkość", "precyzja"],
+      "tekst": "Stół z powyłamywanymi nogami. Wyindywidualizowaliśmy się z rozentuzjazmowanego tłumu.",
+      "wskazowka": "Pierwsze zdanie ćwiczy zbitki spółgłoskowe, drugie — najdłuższe słowo polskie. Mów wolno i wyraźnie."
+    }
+  ]
+}
