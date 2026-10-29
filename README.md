@@ -24,6 +24,16 @@ API docs: **http://127.0.0.1:8000/docs**
 
 > Scores and history live in memory until the API restarts.
 
+## Screenshots
+
+| Main UI | Scores (last attempt) | CER visualization |
+|---|---|---|
+| ![Main UI with random text and attempts history](Assets/main.png) | ![User scores from the last attempt](Assets/scores.png) | ![Character error rate visualization](Assets/cer.png) |
+
+- **Main UI** — draw a random tongue-twister and review previous attempts.
+- **Scores** — metrics from the most recent attempt.
+- **CER visualization** — highlights mismatches between reference and transcription.
+
 ## Metrics
 
 | Metric | Meaning |
