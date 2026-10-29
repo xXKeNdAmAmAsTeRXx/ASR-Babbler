@@ -6,23 +6,43 @@ Polish diction practice app: read a tongue-twister, record your voice, get ASR t
 
 From the repo root ([uv](https://docs.astral.sh/uv/) recommended):
 
-**1. API** (port 8000)
+1. Copy the example environment file and adjust values if needed:
 
 ```bash
-uv run uvicorn API.main:app --host 127.0.0.1 --port 8000
+cp .env.example .env
 ```
 
-**2. Frontend** (port 8080, proxies API)
+2. **API**
+
+```bash
+uv run python main.py
+```
+
+Defaults: `API_HOST=127.0.0.1`, `API_PORT=8000`. Override them in `.env`.
+
+3. **Frontend** (proxies API)
 
 ```bash
 uv run python frontend/serve.py
 ```
+
+Defaults: `FRONTEND_HOST=127.0.0.1`, `FRONTEND_PORT=8080`; the API proxy target is derived from `API_HOST` and `API_PORT`.
 
 Open **http://127.0.0.1:8080**
 
 API docs: **http://127.0.0.1:8000/docs**
 
 > Scores and history live in memory until the API restarts.
+
+## Screenshots
+
+| Main UI | Scores (last attempt) | CER visualization |
+|---|---|---|
+| ![Main UI with random text and attempts history](Assets/main.png) | ![User scores from the last attempt](Assets/scores.png) | ![Character error rate visualization](Assets/cer.png) |
+
+- **Main UI** — draw a random tongue-twister and review previous attempts.
+- **Scores** — metrics from the most recent attempt.
+- **CER visualization** — highlights mismatches between reference and transcription.
 
 ## Metrics
 
