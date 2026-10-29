@@ -2,9 +2,9 @@ from omegaconf import OmegaConf, DictConfig
 import nemo.collections.asr as nemo_asr
 import torch
 
-def load_asr_model():
+def load_asr_model(model_name: str = "nvidia/stt_pl_fastconformer_hybrid_large_pc"):
     asr_model = nemo_asr.models.EncDecHybridRNNTCTCBPEModel.from_pretrained(
-        model_name="nvidia/stt_pl_fastconformer_hybrid_large_pc"
+        model_name=model_name
     )
     device = "cuda" if torch.cuda.is_available() else "cpu"
     asr_model.to(device)

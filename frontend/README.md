@@ -17,7 +17,8 @@ Vanilla HTML/CSS/JS UI styled similarly to [Human Benchmark](https://humanbenchm
 **Terminal 1 — API** (from repo root):
 
 ```bash
-uv run uvicorn API.main:app --host 127.0.0.1 --port 8000
+cp .env.example .env  # first time only
+uv run python main.py
 ```
 
 **Terminal 2 — frontend + proxy** (no CORS changes to API):
@@ -28,7 +29,7 @@ uv run python frontend/serve.py
 
 Open **http://127.0.0.1:8080**
 
-The dev proxy forwards `/exercise/*`, `/upload`, `/score/*`, `/scores/*`, `/transcription/*`, `/audio/*`, and `/health` to the API on port 8000.
+The dev proxy forwards `/exercise/*`, `/upload`, `/score/*`, `/scores/*`, `/transcription/*`, `/audio/*`, and `/health` to the API derived from `API_HOST` and `API_PORT` in `.env` (default port 8000).
 
 ## Alternative: direct API URL
 

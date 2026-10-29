@@ -1,7 +1,8 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException, Form, Query
 from fastapi.responses import JSONResponse
-from pathlib import Path
 import os
+import sys
+from pathlib import Path
 from typing import Literal
 import json
 import random
@@ -11,17 +12,30 @@ import uuid
 
 from nemo.collections.asr.parts.mixins import transcription
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from config import load_env
+
+load_env()
+
+from fastapi import FastAPI, UploadFile, File, HTTPException, Form, Query
+from fastapi.responses import JSONResponse
+
 from API.models import DictionExercise, Audio, AudioResponse, Score, Transcription
 from API.utils.load_asr_model import load_asr_model
 from API.report import report as make_report
+
 app = FastAPI()
 
+ASR_MODEL_NAME = os.getenv("ASR_MODEL_NAME", "nvidia/stt_pl_fastconformer_hybrid_large_pc")
+
 # ASR model
-asr_model = load_asr_model()
+asr_model = load_asr_model(ASR_MODEL_NAME)
 
 # Text variables
-path = os.path.join('API',"cwiczenia_dykcja.json" )
-DATA_PATH = Path(path)
+DATA_PATH = REPO_ROOT / os.getenv("DATA_PATH", "example_data/cwiczenia_dykcja.json")
 Trudnosc = Literal["łatwa", "średnia", "trudna", "bardzo trudna"]
 
 # in-memory store:

@@ -13,13 +13,33 @@ from __future__ import annotations
 
 import http.server
 import json
+import os
+import sys
 import urllib.error
 import urllib.request
 from pathlib import Path
 
-FRONTEND_DIR = Path(__file__).resolve().parent
-API_ORIGIN = "http://127.0.0.1:8000"
-LISTEN = ("127.0.0.1", 8080)
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from config import load_env
+
+load_env()
+
+FRONTEND_DIR_ENV = os.getenv("FRONTEND_DIR", "frontend")
+FRONTEND_DIR_PATH = Path(FRONTEND_DIR_ENV)
+FRONTEND_DIR = (
+    FRONTEND_DIR_PATH if FRONTEND_DIR_PATH.is_absolute() else REPO_ROOT / FRONTEND_DIR_PATH
+).resolve()
+
+API_HOST = os.getenv("API_HOST", "127.0.0.1")
+API_PORT = os.getenv("API_PORT", "8000")
+API_ORIGIN = f"http://{API_HOST}:{API_PORT}"
+LISTEN = (
+    os.getenv("FRONTEND_HOST", "127.0.0.1"),
+    int(os.getenv("FRONTEND_PORT", "8080")),
+)
 
 PROXY_PREFIXES = (
     "/exercise/",
